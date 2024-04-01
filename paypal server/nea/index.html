@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=Ae-dmJ3R47gkBNDlbEJ4-6LP0ZhFkHuj9nzv4Z16GYzcs3YAygHLf5tv9VYUnH_m1XdOPgAzDLT4Lb62&currency=GBP"></script>
+</head>
+<body>
+    <div class="container">
+        <p class="price-tag">Payment for bookings</p>
+        <div id="paypal-container"></div>
+    </div>
+    <script>
+        const queryParams = new URLSearchParams(window.location.search);
+        const price = queryParams.get('price'); // Get the price from URL query parameters
+
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: { value: price } // Use the dynamic price
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    window.location.href = '/payment/successful';
+                    //alert('Transaction completed by ' + details.payer.name.given_name);
+                });
+            },
+            onError: function(err) {
+                console.error('Payment Error:', err);
+                window.location.href = '/payment/failure';
+            }
+        }).render('#paypal-container');
+    </script>
+</body>
+</html>
