@@ -1,0 +1,13 @@
+# C# files
+*.cs linguist-detectable=true
+*.csproj linguist-detectable=true
+*.sln linguist-detectable=true
+
+# HTML files
+*.html linguist-detectable=true
+
+# JavaScript
+*.js linguist-detectable=true
+
+# JSON 
+*.json linguist-detectable=true
